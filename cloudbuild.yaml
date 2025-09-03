@@ -1,7 +1,12 @@
 steps:
-  - name: 'maven'
-    entrypoint: 'mvn'
-    args: ['clean', 'install', '-DskipTests']
+- name: 'gcr.io/cloud-builders/mvn'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      apt-get update && apt-get install -y openjdk-11-jdk
+      export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+      mvn clean install -DskipTests
   #https://cloud.google.com/build/docs/cloud-builders
   # Build the container image
   - name: 'gcr.io/cloud-builders/docker'
